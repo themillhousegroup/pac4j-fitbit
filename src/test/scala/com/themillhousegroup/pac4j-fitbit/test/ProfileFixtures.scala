@@ -1,4 +1,4 @@
-package com.themillhousegroup.pac4junderarmour.test
+package com.themillhousegroup.pac4jfitbit.test
 
 object ProfileFixtures {
 

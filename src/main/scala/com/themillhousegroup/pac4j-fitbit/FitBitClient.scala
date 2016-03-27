@@ -1,4 +1,4 @@
-package com.themillhousegroup.pac4junderarmour
+package com.themillhousegroup.pac4jfitbit
 
 import org.pac4j.oauth.client._
 import org.pac4j.oauth.credentials.OAuthCredentials
@@ -9,7 +9,7 @@ import org.scribe.oauth.{ ProxyAuth20WithHeadersServiceImpl, ProxyOAuth20Service
 import org.scribe.model.ProxyOAuthRequest
 import org.scribe.model.OAuthConfig
 import org.scribe.model.SignatureType
-import org.scribe.builder.api.{ DefaultApi20, UnderArmourApi }
+import org.scribe.builder.api.{ DefaultApi20, FitBitApi }
 import java.net.URL
 
 /**
@@ -44,7 +44,7 @@ class FitBitClient(underArmourKey: String, clientSecret: String, clientCallbackU
     val modifiedCallbackUrl = s"${u.getProtocol}://${u.getAuthority}${clientCallbackUrl}"
     service =
       new ProxyAuth20WithHeadersServiceImpl(
-        new UnderArmourApi(),
+        new FitBitApi(),
         new OAuthConfig(key, secret, modifiedCallbackUrl, SignatureType.Header, scope, null),
         connectTimeout,
         readTimeout,
@@ -78,7 +78,7 @@ class FitBitClient(underArmourKey: String, clientSecret: String, clientCallbackU
     FitBitProfileBuilder.createFromString(body)
   }
 
-  private[pac4junderarmour] def getService = service
+  private[pac4jfitbit] def getService = service
 }
 
 object FitBitProfileBuilder {
@@ -89,9 +89,9 @@ object FitBitProfileBuilder {
     val profile = new FitBitProfile()
     val json = JsonHelper.getFirstNode(body)
     if (json != null) {
-      profile.setId(JsonHelper.get(json, UnderArmourAttributesDefinition.ID))
+      profile.setId(JsonHelper.get(json, FitBitAttributesDefinition.ID))
 
-      UnderArmourAttributesDefinition.getAllAttributes.asScala.foreach { attribute =>
+      FitBitAttributesDefinition.getAllAttributes.asScala.foreach { attribute =>
         profile.addAttribute(attribute, JsonHelper.get(json, attribute))
       }
     }

@@ -1,4 +1,4 @@
-package com.themillhousegroup.pac4junderarmour
+package com.themillhousegroup.pac4jfitbit
 
 import org.specs2.mutable.Specification
 import org.scribe.oauth._

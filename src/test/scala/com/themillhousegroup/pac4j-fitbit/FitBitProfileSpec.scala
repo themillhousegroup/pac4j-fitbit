@@ -1,7 +1,7 @@
-package com.themillhousegroup.pac4junderarmour
+package com.themillhousegroup.pac4jfitbit
 
 import org.specs2.mutable.Specification
-import com.themillhousegroup.pac4junderarmour.test.ProfileFixtures._
+import com.themillhousegroup.pac4jfitbit.test.ProfileFixtures._
 
 class FitBitProfileSpec extends Specification {
   "FitBit profile builder" should {
@@ -29,7 +29,7 @@ class FitBitProfileSpec extends Specification {
     "be able to populate the specific fields of an FitBitProfile from a String" in {
       val p = FitBitProfileBuilder.createFromString(fullProfile)
 
-      val fullLocation = new UnderArmourLocation()
+      val fullLocation = new FitBitLocation()
       fullLocation.country = "AU"
       fullLocation.region = "Vic"
       fullLocation.locality = "Locality"

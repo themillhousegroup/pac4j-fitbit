@@ -1,4 +1,4 @@
-package com.themillhousegroup.pac4junderarmour
+package com.themillhousegroup.pac4jfitbit
 
 import org.pac4j.core.profile.converter.Converters
 import org.pac4j.oauth.profile.OAuthAttributesDefinition
@@ -6,7 +6,7 @@ import org.pac4j.oauth.profile.JsonHelper
 import org.pac4j.oauth.profile.JsonObject
 import com.fasterxml.jackson.databind.JsonNode
 
-object UnderArmourAttributesDefinition extends OAuthAttributesDefinition {
+object FitBitAttributesDefinition extends OAuthAttributesDefinition {
 
   val ID = "id"
   val RESOURCE_STATE = "resource_state"
@@ -30,11 +30,11 @@ object UnderArmourAttributesDefinition extends OAuthAttributesDefinition {
   addAttribute(EMAIL, Converters.stringConverter)
   addAttribute(USERNAME, Converters.stringConverter)
 
-  addAttribute(LOCATION, UnderArmourConverters.locationConverter)
+  addAttribute(LOCATION, FitBitConverters.locationConverter)
   addAttribute(GENDER, Converters.stringConverter)
 }
 
-class UnderArmourLink extends JsonObject {
+class FitBitLink extends JsonObject {
   var href: String = ""
   var id: String = ""
   var name: String = ""
@@ -45,7 +45,7 @@ class UnderArmourLink extends JsonObject {
   }
 }
 
-class UnderArmourLocation extends JsonObject {
+class FitBitLocation extends JsonObject {
   var country: String = ""
   var region: String = ""
   var locality: String = ""
@@ -62,7 +62,7 @@ class UnderArmourLocation extends JsonObject {
 
   override def equals(that: Any): Boolean = {
     that match {
-      case o: UnderArmourLocation => this.toString == o.toString
+      case o: FitBitLocation => this.toString == o.toString
       case _ => false
     }
   }
@@ -72,8 +72,8 @@ class UnderArmourLocation extends JsonObject {
   }
 }
 
-object UnderArmourConverters {
+object FitBitConverters {
   import org.pac4j.oauth.profile.converter.JsonObjectConverter
-  val locationConverter: JsonObjectConverter = new JsonObjectConverter(classOf[UnderArmourLocation])
-  val linkConverter: JsonObjectConverter = new JsonObjectConverter(classOf[UnderArmourLink])
+  val locationConverter: JsonObjectConverter = new JsonObjectConverter(classOf[FitBitLocation])
+  val linkConverter: JsonObjectConverter = new JsonObjectConverter(classOf[FitBitLink])
 }

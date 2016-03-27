@@ -10,9 +10,9 @@ import org.scribe.utils.Preconditions
 import java.io.IOException
 
 /**
- * Json token extractor for UnderArmour using Jackson to parse the response.
+ * Json token extractor for FitBit using Jackson to parse the response.
  */
-class UnderArmourJsonExtractor extends AccessTokenExtractor {
+class FitBitJsonExtractor extends AccessTokenExtractor {
 
   private val OAUTH_EXCEPTION_INVALID_TOKEN_MESSAGE = "Response body is incorrect. Can't extract a token from this: '"
 
@@ -26,7 +26,7 @@ class UnderArmourJsonExtractor extends AccessTokenExtractor {
     Preconditions.checkEmptyString(response, "Response body is incorrect. Can't extract a token from an empty string")
 
     try {
-      val accessToken = objectMapper.readValue(response, classOf[UnderArmourAccessToken])
+      val accessToken = objectMapper.readValue(response, classOf[FitBitAccessToken])
       if (accessToken == null || accessToken.getAccessToken == null) {
         throw new OAuthException(OAUTH_EXCEPTION_INVALID_TOKEN_MESSAGE + response + "'", null)
       }
@@ -38,7 +38,7 @@ class UnderArmourJsonExtractor extends AccessTokenExtractor {
   }
 }
 
-private class UnderArmourAccessToken {
+private class FitBitAccessToken {
   /**
    * the access_token json property
    */
