@@ -6,12 +6,12 @@ import com.themillhousegroup.pac4junderarmour.test.ProfileFixtures._
 class FitBitProfileSpec extends Specification {
   "FitBit profile builder" should {
     "be able to create a non-null FitBitProfile from a String" in {
-      val p = UnderArmourProfileBuilder.createFromString(fullProfile)
+      val p = FitBitProfileBuilder.createFromString(fullProfile)
       p must not beNull
     }
 
     "be able to populate the basic CommonProfile fields of an FitBitProfile from a String" in {
-      val p = UnderArmourProfileBuilder.createFromString(fullProfile)
+      val p = FitBitProfileBuilder.createFromString(fullProfile)
 
       p.getId must beEqualTo("512262")
       p.getDisplayName must beEqualTo("FirstName 'Display' McLastName")
@@ -27,7 +27,7 @@ class FitBitProfileSpec extends Specification {
     }
 
     "be able to populate the specific fields of an FitBitProfile from a String" in {
-      val p = UnderArmourProfileBuilder.createFromString(fullProfile)
+      val p = FitBitProfileBuilder.createFromString(fullProfile)
 
       val fullLocation = new UnderArmourLocation()
       fullLocation.country = "AU"

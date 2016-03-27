@@ -13,9 +13,9 @@ import org.scribe.builder.api.{ DefaultApi20, UnderArmourApi }
 import java.net.URL
 
 /**
- * Get the key and secret values by registering your app at https://developer.underarmour.com/apps/register
+ * Get the key and secret values by registering your app at https://dev.fitbit.com/apps/new
  */
-class UnderArmourClient(underArmourKey: String, clientSecret: String, clientCallbackUrl: String = "/UnderArmourClient/callback") extends BaseOAuth20Client[UnderArmourProfile] {
+class FitBitClient(underArmourKey: String, clientSecret: String, clientCallbackUrl: String = "/FitBitClient/callback") extends BaseOAuth20Client[FitBitProfile] {
 
   /**
    * comma delimited string of ‘view_private’ and/or ‘write’, leave blank for read-only permissions. FIXME
@@ -25,8 +25,8 @@ class UnderArmourClient(underArmourKey: String, clientSecret: String, clientCall
   setSecret(clientSecret)
   setTokenAsHeader(true)
 
-  protected def newClient(): BaseClient[OAuthCredentials, UnderArmourProfile] = {
-    new UnderArmourClient(key, secret)
+  protected def newClient(): BaseClient[OAuthCredentials, FitBitProfile] = {
+    new FitBitClient(key, secret)
   }
 
   protected override def internalInit(): Unit = {
@@ -74,19 +74,19 @@ class UnderArmourClient(underArmourKey: String, clientSecret: String, clientCall
 
   protected def hasBeenCancelled(context: WebContext): Boolean = false
 
-  protected def extractUserProfile(body: String): UnderArmourProfile = {
-    UnderArmourProfileBuilder.createFromString(body)
+  protected def extractUserProfile(body: String): FitBitProfile = {
+    FitBitProfileBuilder.createFromString(body)
   }
 
   private[pac4junderarmour] def getService = service
 }
 
-object UnderArmourProfileBuilder {
-  def createFromString(body: String): UnderArmourProfile = {
+object FitBitProfileBuilder {
+  def createFromString(body: String): FitBitProfile = {
     import org.pac4j.oauth.profile.JsonHelper
     import scala.collection.JavaConverters._
 
-    val profile = new UnderArmourProfile()
+    val profile = new FitBitProfile()
     val json = JsonHelper.getFirstNode(body)
     if (json != null) {
       profile.setId(JsonHelper.get(json, UnderArmourAttributesDefinition.ID))
