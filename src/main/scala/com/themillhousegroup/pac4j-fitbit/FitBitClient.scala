@@ -55,7 +55,7 @@ class FitBitClient(fitbitOauthClientKey: String, clientSecret: String, clientCal
 
   protected def requiresStateParameter(): Boolean = false
 
-  protected def getProfileUrl(accessToken: Token): String = "https://oauth2-api.mapmyapi.com/v7.1/user/self/"
+  protected def getProfileUrl(accessToken: Token): String = s"https://api.fitbit.com/1/user/${accessToken}/profile.json"
 
   // All UA requests have to have the "Api-Key" HTTP header...
   protected override def createProxyRequest(url: String): ProxyOAuthRequest = {

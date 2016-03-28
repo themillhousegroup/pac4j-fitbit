@@ -25,17 +25,5 @@ class FitBitProfileSpec extends Specification {
       p.getProfileUrl must beEqualTo("https://api.ua.com/v7.1/user/512262")
       p.getUsername must beEqualTo("myusername")
     }
-
-    "be able to populate the specific fields of an FitBitProfile from a String" in {
-      val p = FitBitProfileBuilder.createFromString(fullProfile)
-
-      val fullLocation = new FitBitLocation()
-      fullLocation.country = "AU"
-      fullLocation.region = "Vic"
-      fullLocation.locality = "Locality"
-      fullLocation.address = "3476 Address-Field Street"
-
-      p.getFullLocation must beEqualTo(fullLocation)
-    }
   }
 }
