@@ -15,13 +15,13 @@ import java.net.URL
 /**
  * Get the key and secret values by registering your app at https://dev.fitbit.com/apps/new
  */
-class FitBitClient(underArmourKey: String, clientSecret: String, clientCallbackUrl: String = "/FitBitClient/callback") extends BaseOAuth20Client[FitBitProfile] {
+class FitBitClient(fitbitOauthClientKey: String, clientSecret: String, clientCallbackUrl: String = "/FitBitClient/callback") extends BaseOAuth20Client[FitBitProfile] {
 
   /**
    * comma delimited string of ‘view_private’ and/or ‘write’, leave blank for read-only permissions. FIXME
    */
   protected val scope: String = null
-  setKey(underArmourKey)
+  setKey(fitbitOauthClientKey)
   setSecret(clientSecret)
   setTokenAsHeader(true)
 
@@ -31,14 +31,6 @@ class FitBitClient(underArmourKey: String, clientSecret: String, clientCallbackU
 
   protected override def internalInit(): Unit = {
     super.internalInit()
-    // FIXME: Filthy hack - UA seems unable to support having extra params in the callback URL
-    // (like client_name=UnderArmourClient  - which is how pac4j routes it back to us...)
-    // so we rewrite the client name INTO the callback URL rather than just as a param:
-    // Before:
-    // http://my-app:9000/callback?client_name=UnderArmourClient
-    // After:
-    // http://my-app:9000/UnderArmourClient/callback
-    // This will need support in your client app's routes mapping
 
     val u = new URL(callbackUrl)
     val modifiedCallbackUrl = s"${u.getProtocol}://${u.getAuthority}${clientCallbackUrl}"
@@ -68,7 +60,7 @@ class FitBitClient(underArmourKey: String, clientSecret: String, clientCallbackU
   // All UA requests have to have the "Api-Key" HTTP header...
   protected override def createProxyRequest(url: String): ProxyOAuthRequest = {
     val r = super.createProxyRequest(url)
-    r.addHeader("Api-Key", underArmourKey)
+    r.addHeader("Api-Key", fitbitOauthClientKey)
     r
   }
 
