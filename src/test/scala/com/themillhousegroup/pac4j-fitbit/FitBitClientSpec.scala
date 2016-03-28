@@ -17,36 +17,12 @@ class FitBitClientSpec extends Specification {
       uac must not beNull
     }
 
-    "Support providing a custom callback URL" in {
-      val uac = new FitBitClient("key", "secret", "/custom-callback-url")
+    "Support providing custom scopes" in {
+      val uac = new FitBitClient("key", "secret", Set())
       uac.setCallbackUrl("http://callbackUrl")
       uac.init // will throw if things are not right
 
       uac must not beNull
-
-      val svc = uac.getService.asInstanceOf[ProxyAuth20WithHeadersServiceImpl]
-
-      val cfg = svc.getConfig
-
-      cfg must not beNull
-
-      cfg.getCallback must beEqualTo("http://callbackUrl/custom-callback-url")
-    }
-
-    "Providing a reasonable callback URL by default" in {
-      val uac = new FitBitClient("key", "secret")
-      uac.setCallbackUrl("http://callbackUrl")
-      uac.init // will throw if things are not right
-
-      uac must not beNull
-
-      val svc = uac.getService.asInstanceOf[ProxyAuth20WithHeadersServiceImpl]
-
-      val cfg = svc.getConfig
-
-      cfg must not beNull
-
-      cfg.getCallback must beEqualTo("http://callbackUrl/FitBitClient/callback")
     }
   }
 }

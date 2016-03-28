@@ -12,10 +12,27 @@ import org.scribe.model.SignatureType
 import org.scribe.builder.api.{ DefaultApi20, FitBitApi }
 import java.net.URL
 
+case class FitBitScope(name: String)
+
+object FitBitScopes {
+  val all = Set(
+    "activity",
+    "heartrate",
+    "location",
+    "nutrition",
+    "profile",
+    "settings",
+    "sleep",
+    "social",
+    "weight"
+  ).map(FitBitScope)
+
+  val profileOnly = Set(FitBitScope("profile"))
+}
 /**
  * Get the key and secret values by registering your app at https://dev.fitbit.com/apps/new
  */
-class FitBitClient(fitbitOauthClientKey: String, clientSecret: String, clientCallbackUrl: String = "/FitBitClient/callback") extends BaseOAuth20Client[FitBitProfile] {
+class FitBitClient(fitbitOauthClientKey: String, clientSecret: String, scopes: Set[FitBitScope] = FitBitScopes.profileOnly) extends BaseOAuth20Client[FitBitProfile] {
 
   /**
    * comma delimited string of ‘view_private’ and/or ‘write’, leave blank for read-only permissions. FIXME
@@ -27,30 +44,6 @@ class FitBitClient(fitbitOauthClientKey: String, clientSecret: String, clientCal
 
   protected def newClient(): BaseClient[OAuthCredentials, FitBitProfile] = {
     new FitBitClient(key, secret)
-  }
-
-  protected override def internalInit(): Unit = {
-    super.internalInit()
-
-    val u = new URL(callbackUrl)
-    val modifiedCallbackUrl = s"${u.getProtocol}://${u.getAuthority}${clientCallbackUrl}"
-    service =
-      new ProxyAuth20WithHeadersServiceImpl(
-        new FitBitApi(),
-        new OAuthConfig(key, secret, modifiedCallbackUrl, SignatureType.Header, scope, null),
-        connectTimeout,
-        readTimeout,
-        proxyHost,
-        proxyPort,
-        false,
-        true) {
-        override def addHeaders(requestToken: Token, api: DefaultApi20, config: OAuthConfig): List[(String, String)] = {
-          // As per:
-          // https://developer.underarmour.com/docs/v71_OAuth_2_Intro
-          // we need to add "Api-Key" with the client ID
-          List("Api-Key" -> config.getApiKey)
-        }
-      }
   }
 
   protected def requiresStateParameter(): Boolean = false
