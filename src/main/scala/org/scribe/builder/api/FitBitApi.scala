@@ -9,11 +9,12 @@ import org.scribe.utils.Preconditions
 
 object FitBitApi {
   /**
-   * UnderArmour authorization URL
+   * FitBit authorization URL:
+   * https://dev.fitbit.com/docs/oauth2/#authorization-page
    */
-  private val AUTHORIZE_URL = "https://www.mapmyfitness.com/v7.1/oauth2/uacf/authorize/?response_type=code&client_id=%s&redirect_uri=%s"
+  private val AUTHORIZE_URL = "https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=%s&redirect_uri=%s&scope=%s"
 
-  private val ACCESS_TOKEN_URL = "https://oauth2-api.mapmyapi.com/v7.1/oauth2/uacf/access_token/"
+  private val ACCESS_TOKEN_URL = "https://api.fitbit.com/oauth2/token"
 
   /**
    * Need to redefine the token extractor, because the token comes from Strava in json format.
@@ -22,7 +23,7 @@ object FitBitApi {
 }
 
 /**
- * This class represents the OAuth API implementation for UnderArmour.
+ * This class represents the OAuth API implementation for FitBit.
  */
 class FitBitApi extends DefaultApi20 {
   import FitBitApi._
@@ -38,7 +39,8 @@ class FitBitApi extends DefaultApi20 {
 
     String.format(AUTHORIZE_URL,
       config.getApiKey,
-      OAuthEncoder.encode(config.getCallback)
+      OAuthEncoder.encode(config.getCallback),
+      "profile" // FIXME - correctly get this from the FitBitClient init args
     )
   }
 }

@@ -1,5 +1,6 @@
 package com.themillhousegroup.pac4jfitbit
 
+import org.pac4j.core.exception.HttpCommunicationException
 import org.pac4j.oauth.client._
 import org.pac4j.oauth.credentials.OAuthCredentials
 import org.pac4j.core.client.BaseClient
@@ -34,13 +35,26 @@ object FitBitScopes {
  */
 class FitBitClient(fitbitOauthClientKey: String, clientSecret: String, scopes: Set[FitBitScope] = FitBitScopes.profileOnly) extends BaseOAuth20Client[FitBitProfile] {
 
-  /**
-   * comma delimited string of ‘view_private’ and/or ‘write’, leave blank for read-only permissions. FIXME
-   */
-  protected val scope: String = null
+  protected val scope: String = scopes.mkString(" ")
   setKey(fitbitOauthClientKey)
   setSecret(clientSecret)
   setTokenAsHeader(true)
+
+  protected override def internalInit():Unit = {
+			super.internalInit()
+			service = new ProxyOAuth20ServiceImpl(
+				new FitBitApi(), 
+				new OAuthConfig(
+					key, secret, callbackUrl, SignatureType.Header, scope, null
+				), 
+				connectTimeout, 
+				readTimeout, 
+				proxyHost, 
+				proxyPort, 
+				false, 
+				false
+			)
+  }
 
   protected def newClient(): BaseClient[OAuthCredentials, FitBitProfile] = {
     new FitBitClient(key, secret)
@@ -50,16 +64,35 @@ class FitBitClient(fitbitOauthClientKey: String, clientSecret: String, scopes: S
 
   protected def getProfileUrl(accessToken: Token): String = s"https://api.fitbit.com/1/user/${accessToken}/profile.json"
 
-  // All UA requests have to have the "Api-Key" HTTP header...
-  protected override def createProxyRequest(url: String): ProxyOAuthRequest = {
-    val r = super.createProxyRequest(url)
-    r.addHeader("Api-Key", fitbitOauthClientKey)
-    r
-  }
+	protected override def sendRequestForData(accessToken:Token, dataUrl:String):String = {
+        logger.debug(s"Overridden sendRequestForData: accessToken : ${accessToken}, ${dataUrl}")
+        val t0:Long = System.currentTimeMillis()
+        val request = createProxyRequest(dataUrl)
+
+        this.service.signRequest(accessToken, request)
+        // Let the client to decide if the token should be in header
+        if (this.isTokenAsHeader()) {
+						println("adding this: 'Authorization, Bearer"  + accessToken.getToken() + "'")
+            request.addHeader("Authorization", "Bearer " + accessToken.getToken())
+        }
+        val response = request.send()
+        val code = response.getCode()
+        val body = response.getBody()
+        val t1 = System.currentTimeMillis()
+        logger.debug("Request took : " + (t1 - t0) + " ms for : " + dataUrl)
+        logger.debug("response code : {} / response body : {}", code, body)
+        if (code != 200) {
+            logger.error("Failed to get data, code : " + code + " / body : " + body)
+            throw new HttpCommunicationException(code, body)
+        }
+        body
+    }
+
 
   protected def hasBeenCancelled(context: WebContext): Boolean = false
 
   protected def extractUserProfile(body: String): FitBitProfile = {
+		println(s"Profile build requested from $body")
     FitBitProfileBuilder.createFromString(body)
   }
 

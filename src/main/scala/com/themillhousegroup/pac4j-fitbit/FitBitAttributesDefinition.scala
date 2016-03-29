@@ -6,7 +6,16 @@ import org.pac4j.oauth.profile.JsonHelper
 import org.pac4j.oauth.profile.JsonObject
 import com.fasterxml.jackson.databind.JsonNode
 
+class FitBitUser extends JsonObject {
+
+  def buildFromJson(json: JsonNode): Unit = {
+
+  }
+}
+
 object FitBitAttributesDefinition extends OAuthAttributesDefinition {
+
+  import org.pac4j.oauth.profile.converter.JsonObjectConverter
 
   val ID = "encodedId"
   val FULL_NAME = "fullName"
@@ -19,6 +28,12 @@ object FitBitAttributesDefinition extends OAuthAttributesDefinition {
   val GENDER = "gender"
 
   val AVATAR_150 = "avatar150"
+
+  val USER = "user"
+
+  val userConverter = new JsonObjectConverter(classOf[FitBitUser])
+
+  addAttribute(USER, userConverter)
 
   addAttribute(FULL_NAME, Converters.stringConverter)
   addAttribute(DISPLAY_NAME, Converters.stringConverter)
