@@ -5,7 +5,7 @@ import org.pac4j.oauth.credentials.OAuthCredentials
 import org.pac4j.core.client.BaseClient
 import org.scribe.model._
 import org.pac4j.core.context.WebContext
-import org.scribe.oauth.{ ProxyAuth20WithHeadersServiceImpl, ProxyOAuth20ServiceImpl }
+import org.scribe.oauth.ProxyOAuth20ServiceImpl
 import org.scribe.builder.api.FitBitApi
 import org.scribe.services.Base64Encoder
 
