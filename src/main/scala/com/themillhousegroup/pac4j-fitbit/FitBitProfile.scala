@@ -55,7 +55,12 @@ class FitBitProfile extends OAuth20Profile {
   }
 
   override def getLocation: String = {
-    getString(FitBitAttributesDefinition.CITY)
+    val maybeLocation = for {
+      city <- Option(getString(FitBitAttributesDefinition.CITY))
+      country <- Option(getString(FitBitAttributesDefinition.COUNTRY))
+    } yield s"${city} ${country}"
+
+    maybeLocation.getOrElse("")
   }
 
   override def getUsername = getId
