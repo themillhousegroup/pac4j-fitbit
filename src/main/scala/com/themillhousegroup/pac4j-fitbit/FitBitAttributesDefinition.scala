@@ -2,16 +2,6 @@ package com.themillhousegroup.pac4jfitbit
 
 import org.pac4j.core.profile.converter.Converters
 import org.pac4j.oauth.profile.OAuthAttributesDefinition
-import org.pac4j.oauth.profile.JsonHelper
-import org.pac4j.oauth.profile.JsonObject
-import com.fasterxml.jackson.databind.JsonNode
-
-class FitBitUser extends JsonObject {
-
-  def buildFromJson(json: JsonNode): Unit = {
-
-  }
-}
 
 object FitBitAttributesDefinition extends OAuthAttributesDefinition {
 
