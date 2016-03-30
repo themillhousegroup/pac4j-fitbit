@@ -2,6 +2,7 @@ package com.themillhousegroup.pac4jfitbit
 
 import org.pac4j.oauth.profile.OAuth20Profile
 import org.pac4j.core.profile._
+import java.util.Locale
 
 class FitBitProfile extends OAuth20Profile {
 
@@ -33,15 +34,17 @@ class FitBitProfile extends OAuth20Profile {
     ""
   }
 
+  override def getLocale: Locale = get[Locale](FitBitAttributesDefinition.LOCALE)
+
   override def getPictureUrl: String = getString(FitBitAttributesDefinition.AVATAR_150)
 
   override def getProfileUrl: String = s"${FITBIT_BASE_URL}/user/${getId}/profile.json"
 
   override def getGender: Gender = {
     val gender = getString(FitBitAttributesDefinition.GENDER)
-    if ("M".equals(gender)) {
+    if ("MALE".equals(gender)) {
       Gender.MALE
-    } else if ("F".equals(gender)) {
+    } else if ("FEMALE".equals(gender)) {
       Gender.FEMALE
     } else {
       Gender.UNSPECIFIED

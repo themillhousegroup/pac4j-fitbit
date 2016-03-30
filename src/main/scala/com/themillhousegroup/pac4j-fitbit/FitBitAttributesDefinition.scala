@@ -15,8 +15,6 @@ class FitBitUser extends JsonObject {
 
 object FitBitAttributesDefinition extends OAuthAttributesDefinition {
 
-  import org.pac4j.oauth.profile.converter.JsonObjectConverter
-
   val ID = "encodedId"
   val FULL_NAME = "fullName"
   val DISPLAY_NAME = "displayName"
@@ -29,14 +27,15 @@ object FitBitAttributesDefinition extends OAuthAttributesDefinition {
 
   val AVATAR_150 = "avatar150"
 
+  val LOCALE = "locale"
+
   val USER = "user"
-
-  val userConverter = new JsonObjectConverter(classOf[FitBitUser])
-
-  addAttribute(USER, userConverter)
 
   addAttribute(FULL_NAME, Converters.stringConverter)
   addAttribute(DISPLAY_NAME, Converters.stringConverter)
   addAttribute(AVATAR_150, Converters.stringConverter)
+  addAttribute(GENDER, Converters.stringConverter)
+  addAttribute(LOCALE, Converters.stringConverter)
+  addAttribute(CITY, Converters.stringConverter)
 }
 
