@@ -3,37 +3,37 @@ package com.themillhousegroup.pac4jfitbit.test
 object ProfileFixtures {
 
   val fullProfile = """
-	{
-			"user": {
-					"aboutMe":"AboutMe",
-					"avatar":"Avatar",
-					"avatar150":"Avatar150",
-					"city":"London",
-					"country":"Country",
-					"dateOfBirth":"27/03/1977",
-					"displayName":"Display Name",
-					"distanceUnit":"km",
-					"encodedId":"512262",
-					"foodsLocale":"en_GB",
-					"fullName":"Full Name",
-					"gender":"MALE",
-					"glucoseUnit":"",
-					"height":181,
-					"heightUnit":"cm",
-					"locale":"en_GB",
-					"memberSince":"19/11/2012",
-					"nickname":"nick",
-					"offsetFromUTCMillis":+1000,
-					"startDayOfWeek":"Monday",
-					"state":"Vic",
-					"strideLengthRunning":1.2,
-					"strideLengthWalking":0.8,
-					"timezone":"Australia/Melbourne",
-					"waterUnit":"litres",
-					"weight":77,
-					"weightUnit":"kg"
-			}
-	}
-	"""
+    {
+    "user": {
+      "age":39,
+      "avatar":"https://static0.fitbit.com/images/profile/defaultProfile_100_male.gif",
+      "avatar150":"https://static0.fitbit.com/images/profile/defaultProfile_150_male.gif",
+      "averageDailySteps":0,
+      "corporate":false,
+      "dateOfBirth":"1977-03-27",
+      "displayName":"DisplayName",
+      "distanceUnit":"METRIC",
+      "encodedId":"3G75NZ",
+      "features":{"exerciseGoal":true},
+      "fullName":"Fully Namesmith",
+      "gender":"FEMALE",
+      "glucoseUnit":"METRIC",
+      "height":181,
+      "heightUnit":"METRIC",
+      "locale":"en_AU",
+      "memberSince":"2016-03-26",
+      "offsetFromUTCMillis":-25200000,
+      "startDayOfWeek":"SUNDAY",
+      "strideLengthRunning":94.2,
+      "strideLengthRunningType":"default",
+      "strideLengthWalking":75.10000000000001,
+      "strideLengthWalkingType":"default",
+      "timezone":"America/Los_Angeles",
+      "topBadges":[],
+      "weight":0,
+      "weightUnit":"METRIC"
+    }
+  }
+"""
 
 }

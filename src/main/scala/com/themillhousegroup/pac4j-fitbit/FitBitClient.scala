@@ -1,15 +1,12 @@
 package com.themillhousegroup.pac4jfitbit
 
-import org.pac4j.core.exception.HttpCommunicationException
 import org.pac4j.oauth.client._
 import org.pac4j.oauth.credentials.OAuthCredentials
 import org.pac4j.core.client.BaseClient
 import org.scribe.model._
 import org.pac4j.core.context.WebContext
 import org.scribe.oauth.{ ProxyAuth20WithHeadersServiceImpl, ProxyOAuth20ServiceImpl }
-import org.scribe.builder.api.{ DefaultApi20, FitBitApi }
-import java.net.URL
-import com.themillhousegroup.pac4jfitbit.FitBitScope
+import org.scribe.builder.api.FitBitApi
 import org.scribe.services.Base64Encoder
 
 case class FitBitScope(name: String)
@@ -96,7 +93,6 @@ class FitBitClient(fitbitOauthClientKey: String, clientSecret: String, scopes: S
   protected def hasBeenCancelled(context: WebContext): Boolean = false
 
   protected def extractUserProfile(body: String): FitBitProfile = {
-    System.err.println(s"Profile build requested from $body")
     FitBitProfileBuilder.createFromString(body)
   }
 

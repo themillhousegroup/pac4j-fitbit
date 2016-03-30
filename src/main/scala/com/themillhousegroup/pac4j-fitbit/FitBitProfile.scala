@@ -34,7 +34,10 @@ class FitBitProfile extends OAuth20Profile {
     ""
   }
 
-  override def getLocale: Locale = get[Locale](FitBitAttributesDefinition.LOCALE)
+  override def getLocale: Locale = {
+    val loc = getString(FitBitAttributesDefinition.LOCALE)
+    Locale.forLanguageTag(loc.replace('_', '-'))
+  }
 
   override def getPictureUrl: String = getString(FitBitAttributesDefinition.AVATAR_150)
 
@@ -54,4 +57,6 @@ class FitBitProfile extends OAuth20Profile {
   override def getLocation: String = {
     getString(FitBitAttributesDefinition.CITY)
   }
+
+  override def getUsername = getId
 }
