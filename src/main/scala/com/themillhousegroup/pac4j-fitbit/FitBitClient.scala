@@ -9,23 +9,6 @@ import org.scribe.oauth.ProxyOAuth20ServiceImpl
 import org.scribe.builder.api.FitBitApi
 import org.scribe.services.Base64Encoder
 
-case class FitBitScope(name: String)
-
-object FitBitScopes {
-  val all = Set(
-    "activity",
-    "heartrate",
-    "location",
-    "nutrition",
-    "profile",
-    "settings",
-    "sleep",
-    "social",
-    "weight"
-  ).map(FitBitScope)
-
-  val profileOnly = Set(FitBitScope("profile"))
-}
 /**
  * Get the key and secret values by registering your app at https://dev.fitbit.com/apps/new
  */
