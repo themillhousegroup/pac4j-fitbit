@@ -19,7 +19,7 @@ object FitBitApi {
   /**
    * Need to redefine the token extractor, because the token comes from Strava in json format.
    */
-  private val ACCESS_TOKEN_EXTRACTOR: AccessTokenExtractor = new StravaJsonExtractor();
+  private val ACCESS_TOKEN_EXTRACTOR: AccessTokenExtractor = new StravaJsonExtractor()
 }
 
 /**
@@ -40,7 +40,7 @@ class FitBitApi extends DefaultApi20 {
     String.format(AUTHORIZE_URL,
       config.getApiKey,
       OAuthEncoder.encode(config.getCallback),
-      "profile" // FIXME - correctly get this from the FitBitClient init args
+      config.getScope
     )
   }
 }
