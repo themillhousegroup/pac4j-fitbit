@@ -17,7 +17,7 @@ object FitBitApi {
   private val ACCESS_TOKEN_URL = "https://api.fitbit.com/oauth2/token"
 
   /**
-   * Need to redefine the token extractor, because the token comes from Strava in json format.
+   * The Json extractor used by Strava is actually applicable here too
    */
   private val ACCESS_TOKEN_EXTRACTOR: AccessTokenExtractor = new StravaJsonExtractor()
 }
