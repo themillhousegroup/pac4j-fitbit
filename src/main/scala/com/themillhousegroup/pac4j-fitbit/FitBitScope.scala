@@ -1,6 +1,6 @@
 package com.themillhousegroup.pac4jfitbit
 
-case class FitBitScope(name: String)
+final case class FitBitScope(name: String)
 
 object FitBitScopes {
 

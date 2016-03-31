@@ -80,6 +80,7 @@ class FitBitClient(fitbitOauthClientKey: String, clientSecret: String, scopes: S
   }
 
   private[pac4jfitbit] def getService = service
+  private[pac4jfitbit] def getScope = scope
 }
 
 object FitBitProfileBuilder {
