@@ -19,12 +19,10 @@ Bring in the library by adding the following to your ```build.sbt```.
 
 ```
    libraryDependencies ++= Seq(
-     "com.themillhousegroup" %% "pac4j-fitbit" % "0.1.xx"
+     "com.themillhousegroup" %% "pac4j-fitbit" % "0.1.9"
    )
 
 ```
-
-Please note - this library is not ready for production use! Once it is, the version number will be in the `1.x` range.
 
 
 ### Usage
@@ -33,7 +31,7 @@ Once you have __pac4j-fitbit__ added to your project, you can start using it lik
 
 ##### Add it to your list of clients in your setup code:
 ```
-import com.themillhousegroup.pac4j-fitbit
+import com.themillhousegroup.pac4jfitbit
 
 ...
 val facebookClient = new FacebookClient("fbId", "fbSecret")
@@ -44,6 +42,23 @@ val fitbitClient = new FitBitClient("fitBitId", "fitBitSecret")
 new Clients(baseUrl + "/callback", facebookClient, fitbitClient)
 
 ```
+
+##### Customizing scope:
+By default, the only `scope` argument provided to the FitBit API will be `profile`.
+If you need more access, supply a `Set[FitBitScope]` as the third argument to the `FitBitClient` constructor, e.g.:
+
+```
+   import com.themillhousegroup.pac4jfitbit
+   import com.themillhousegroup.pac4jfitbit.FitBitScopes._
+
+
+   val fitbitClient = new FitBitClient(
+   	"fitBitId", 
+   	"fitBitSecret",
+   	Set(profile, location, activity, weight)
+  )
+```
+The names of the `FitBitScope` instances are exactly as per the [FitBit Scope documentation](https://dev.fitbit.com/docs/oauth2/#scope).  
 
 
 ### Credits
