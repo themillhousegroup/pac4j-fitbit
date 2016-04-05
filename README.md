@@ -61,6 +61,33 @@ If you need more access, supply a `Set[FitBitScope]` as the third argument to th
 The names of the `FitBitScope` instances are exactly as per the [FitBit Scope documentation](https://dev.fitbit.com/docs/oauth2/#scope).  
 
 
+##### The `FitBitProfile`
+If a user successfully authenticates against FitBit, you'll get back an instance of a `FitBitProfile`, which looks like this:
+
+```
+class FitBitProfile extends OAuth20Profile {
+
+  override def getFirstName: String 
+  override def getFamilyName: String
+  override def getDisplayName: String 
+
+	/** Always returns "" - FitBit will not reveal users' emails */
+  override def getEmail: String = ""
+
+  override def getLocale: Locale 
+  override def getPictureUrl: String 
+  override def getProfileUrl: String 
+  override def getGender: Gender 
+
+	/** Returns "<city> <country>" IFF the "location" scope was requested */
+  override def getLocation: String 
+
+	/** Will just return the user's ID. No usernames in FitBit */
+  override def getUsername = getId
+}
+```
+
+
 ### Credits
 
 - [Pac4j](https://github.com/pac4j/pac4j)
